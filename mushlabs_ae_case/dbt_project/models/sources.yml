@@ -1,0 +1,6 @@
+version: 2
+sources:
+  - name: core
+    tables:
+      - name: raw_gho_countries
+      - name: raw_gho_gender_inequality

@@ -1,0 +1,7 @@
+mushlabs_ae_case:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: E:\mushlabs-case-study\dbt_duckdb.db
+      schema: core
