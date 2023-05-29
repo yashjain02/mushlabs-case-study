@@ -3,26 +3,33 @@ from dagster import asset, op
 from dagster_dbt import load_assets_from_dbt_project
 from .resources import DBT_PROFILE_DIR, DBT_PROJECT_DIR, IGHOODataResource
 
+#reads dbt project and run the model
 dbt_assets = load_assets_from_dbt_project(
     project_dir=DBT_PROJECT_DIR,
     profiles_dir=DBT_PROFILE_DIR,
 )
 
+
+#This op drop the given column from the given dataframe
 @op
 def drop_columns(dataframe: pd.DataFrame, columns_to_drop: list) -> pd.DataFrame:
     dropped_column_df = dataframe.drop(columns=columns_to_drop)
     return dropped_column_df
 
+
+#This opeartion convert str to dattime format
 @op
 def convert_to_date_and_time(converted_date_df: pd.DataFrame, columns_to_convert: list, datetime_format: str) -> pd.DataFrame:
     for column in columns_to_convert:
         converted_date_df[column] = pd.to_datetime(converted_date_df[column], format=datetime_format)
     return converted_date_df
 
+#This opeartion renames the column in given dataframe
 @op
-def rename_columns(column_rename_df, columns):
+def rename_columns(column_rename_df, columns)->pd.DataFrame:
     return column_rename_df.dropna().rename(columns=columns)
 
+#This assest gets gender inequality data and does ETL and loaded to duckdb in local
 @asset(key_prefix=["core"], compute_kind="pandas", group_name="staging")
 def raw_gho_gender_inequality(
     gho: IGHOODataResource,
@@ -38,7 +45,7 @@ def raw_gho_gender_inequality(
     result = convert_to_date_and_time(gender_inequality_data_renamed, columns_to_convert, datetime_format = '%Y-%m-%d %H:%M:%S')
     return result
 
-
+#This assest gets countries data from the api and does ETL and loaded to duckdb in local
 @asset(key_prefix=["core"], compute_kind="pandas", group_name="staging")
 def raw_gho_countries(
     gho: IGHOODataResource
