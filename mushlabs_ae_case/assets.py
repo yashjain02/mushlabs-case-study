@@ -41,7 +41,7 @@ def raw_gho_gender_inequality(
 
 @asset(key_prefix=["core"], compute_kind="pandas", group_name="staging")
 def raw_gho_countries(
-    gho: IGHOODataResource,
+    gho: IGHOODataResource
 ) -> pd.DataFrame:
     columns_to_rename = {'Title': 'Country', 'ParentCode': 'RegionCode',
                         'ParentTitle': 'Region', 'Code': 'CountryCode'}
