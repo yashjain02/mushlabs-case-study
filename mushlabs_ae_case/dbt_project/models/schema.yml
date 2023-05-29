@@ -1,0 +1,115 @@
+version: 2
+
+models:
+  - name: stg_country
+    description: records of countries and its region with codes
+    columns:
+      - name: CountryCode
+        description: code for each country
+        tests:
+          - not_null
+      - name: Country
+        description: name of countries
+        tests:
+          - not_null
+      - name: Region
+        description: Name of continents and regions
+        tests:
+          - not_null
+      - name: RegionCode
+        description: Code of regions
+        tests:
+          - not_null
+  
+  - name: stg_gender_inequality
+    description: records of gender inequality 
+    columns:
+      - name: id
+        description: id for each record
+        tests:
+          - not_null
+          - unique
+      - name: CountryCode
+        description: code/shortform of countries
+        tests:
+           - not_null
+      - name: DataCaptured
+        description: year at which data collection ended
+        tests:
+           - not_null
+           - accepted_values:
+              values: ['2012', '2014']
+      - name: value
+        description: value of gender inequality 
+        tests: 
+           - not_null
+      - name: NumericValue
+        description: value of gender inequality in number
+        tests:
+          - not_null
+      - name: Date
+        description: Date when data was captured
+        tests:
+          - not_null
+      - name: TimeDimensionBegin
+        description: Time when data collection was started
+        tests:
+          - not_null
+      - name: TimeDimensionEnd
+        description: Time when data collection was ended
+        tests:
+          - not_null
+
+  - name: gender_inequality_per_country
+    description: data collection of gender inequality per each country
+    columns:
+      - name: country_name
+        description: name of country 
+        tests: 
+          - not_null
+          - unique
+      - name: inequality_count
+        description: sum of value of gender inequality 
+        tests:
+          - not_null
+      - name: average_inequality
+        description: Average value of gender inequality 
+        tests:
+          - not_null
+    
+  - name: gender_inequality_per_region
+    description: data collection of gender inequality per region
+    columns:
+      - name: region_name
+        description: name of region 
+        tests:
+          - not_null
+          - unique
+      - name: inequality_count
+        description: sum of gender inequality per region
+        tests:
+          - not_null
+      - name: average_inequality
+        description: Average value of gender inequality 
+        tests:
+          - not_null
+    
+  - name: gender_inequality_per_country_duration
+    description: duration of data collected per country
+    columns:
+      - name: country_code
+        description: code of country
+        tests:
+          - not_null
+      - name: year_data_collection_ended
+        description: year when data collection ended
+        tests:
+          - not_null
+      - name: duration_of_data
+        description: duartion of data collection
+        tests:
+          - not_null
+      - name: country
+        description: name of country
+        tests: 
+          - not_null
