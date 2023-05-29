@@ -10,14 +10,14 @@ dbt_assets = load_assets_from_dbt_project(
 
 @op
 def drop_columns(dataframe: pd.DataFrame, columns_to_drop: list) -> pd.DataFrame:
-    df_dropped = dataframe.drop(columns=columns_to_drop)
-    return df_dropped
+    dropped_column_df = dataframe.drop(columns=columns_to_drop)
+    return dropped_column_df
 
 @op
-def convert_to_date_and_time(df: pd.DataFrame, columns_to_convert: list, datetime_format: str) -> pd.DataFrame:
+def convert_to_date_and_time(converted_date_df: pd.DataFrame, columns_to_convert: list, datetime_format: str) -> pd.DataFrame:
     for column in columns_to_convert:
-        df[column] = pd.to_datetime(df[column], format=datetime_format)
-    return df
+        converted_date_df[column] = pd.to_datetime(converted_date_df[column], format=datetime_format)
+    return converted_date_df
 
 @op
 def rename_columns(column_rename_df, columns):
